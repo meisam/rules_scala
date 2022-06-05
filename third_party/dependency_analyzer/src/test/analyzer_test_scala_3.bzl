@@ -7,7 +7,7 @@ def analyzer_tests_scala_3():
         # Scala 2 standard library is required for compilation.
         # Without it compilation fails with error:
         # class dotty.tools.dotc.core.Symbols$NoSymbol$ cannot be cast to class dotty.tools.dotc.core.Symbols$ClassSymbol
-        "-Dscala.library2.location=$(rootpath @io_bazel_rules_scala_scala_library_2)",
+        "-Dscala.library2.location=$(rootpath @io_bazel_rules_scala_scala_library)",
     ]
 
     scala_test(

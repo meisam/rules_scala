@@ -93,11 +93,11 @@ scala_toolchain = rule(
         "scalacopts": attr.string_list(),
         "dep_providers": attr.label_list(
             default = [
-                "@io_bazel_rules_scala//scala:scala_xml_provider",
-                "@io_bazel_rules_scala//scala:parser_combinators_provider",
+                # "@io_bazel_rules_scala//scala:scala_xml_provider",
+                # "@io_bazel_rules_scala//scala:parser_combinators_provider",
                 "@io_bazel_rules_scala//scala:scala_compile_classpath_provider",
                 "@io_bazel_rules_scala//scala:scala_library_classpath_provider",
-                "@io_bazel_rules_scala//scala:scala_macro_classpath_provider",
+                # "@io_bazel_rules_scala//scala:scala_macro_classpath_provider",
             ],
             providers = [_DepsInfo],
         ),

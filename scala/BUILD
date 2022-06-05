@@ -67,14 +67,18 @@ declare_deps_provider(
     deps_id = "scala_compile_classpath",
     visibility = ["//visibility:public"],
     deps = [
-        "@io_bazel_rules_scala_scala_compiler",
-        "@io_bazel_rules_scala_scala_library",
-    ] + (["@io_bazel_rules_scala_scala_reflect"] if SCALA_MAJOR_VERSION.startswith("2") else [
-        "@io_bazel_rules_scala_scala_interfaces",
-        "@io_bazel_rules_scala_scala_tasty_core",
-        "@io_bazel_rules_scala_scala_asm",
-        "@io_bazel_rules_scala_scala_library_2",
-    ]),
+        #     "@io_bazel_rules_scala_scala_compiler_2",
+        #     "@io_bazel_rules_scala_scala_library_2",
+        #     "@io_bazel_rules_scala_scala_reflect_2",
+        # ] if SCALA_MAJOR_VERSION.startswith("2") else
+        # [
+            "@io_bazel_rules_scala_scala_compiler",
+            # "@io_bazel_rules_scala_scala_reflect",
+            "@io_bazel_rules_scala_scala_interfaces",
+            "@io_bazel_rules_scala_scala_tasty_core",
+            # "@io_bazel_rules_scala_scala_asm",
+            "@io_bazel_rules_scala_scala_library_2",
+        ],
 )
 
 declare_deps_provider(
@@ -82,10 +86,12 @@ declare_deps_provider(
     deps_id = "scala_library_classpath",
     visibility = ["//visibility:public"],
     deps = [
-        "@io_bazel_rules_scala_scala_library",
-    ] + (["@io_bazel_rules_scala_scala_reflect"] if SCALA_MAJOR_VERSION.startswith("2") else [
-        "@io_bazel_rules_scala_scala_library_2",
-    ]),
+        #     "@io_bazel_rules_scala_scala_library_2",
+        #     "@io_bazel_rules_scala_scala_reflect_2",
+        # ] if SCALA_MAJOR_VERSION.startswith("2") else [
+            # "@io_bazel_rules_scala_scala_reflect",
+            "@io_bazel_rules_scala_scala_library",
+        ],
 )
 
 declare_deps_provider(
@@ -93,22 +99,24 @@ declare_deps_provider(
     deps_id = "scala_macro_classpath",
     visibility = ["//visibility:public"],
     deps = [
+    #     "@io_bazel_rules_scala_scala_library_2",
+    #     "@io_bazel_rules_scala_scala_reflect_2",
+    # ] if SCALA_MAJOR_VERSION.startswith("2") else [
         "@io_bazel_rules_scala_scala_library",
-    ] + (["@io_bazel_rules_scala_scala_reflect"] if SCALA_MAJOR_VERSION.startswith("2") else [
-        "@io_bazel_rules_scala_scala_library_2",
-    ]),
+    ]
+    ,
 )
 
-declare_deps_provider(
-    name = "scala_xml_provider",
-    deps_id = "scala_xml",
-    visibility = ["//visibility:public"],
-    deps = ["@io_bazel_rules_scala_scala_xml"],
-)
+# declare_deps_provider(
+#     name = "scala_xml_provider",
+#     deps_id = "scala_xml",
+#     visibility = ["//visibility:public"],
+#     deps = ["@io_bazel_rules_scala_scala_xml"],
+# )
 
-declare_deps_provider(
-    name = "parser_combinators_provider",
-    deps_id = "parser_combinators",
-    visibility = ["//visibility:public"],
-    deps = ["@io_bazel_rules_scala_scala_parser_combinators"],
-)
+# declare_deps_provider(
+#     name = "parser_combinators_provider",
+#     deps_id = "parser_combinators",
+#     visibility = ["//visibility:public"],
+#     deps = ["@io_bazel_rules_scala_scala_parser_combinators"],
+# )

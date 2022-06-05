@@ -43,20 +43,21 @@ def rules_scala_setup():
         )
 
 ARTIFACT_IDS = [
-    "io_bazel_rules_scala_scala_library",
-    "io_bazel_rules_scala_scala_compiler",
-    "io_bazel_rules_scala_scala_reflect",
-    "io_bazel_rules_scala_scala_xml",
-    "io_bazel_rules_scala_scala_parser_combinators",
-] if SCALA_MAJOR_VERSION.startswith("2") else [
+#     "io_bazel_rules_scala_scala_library",
+#     "io_bazel_rules_scala_scala_compiler",
+#     "io_bazel_rules_scala_scala_reflect",
+#     "io_bazel_rules_scala_scala_xml",
+#     "io_bazel_rules_scala_scala_parser_combinators",
+# ] if SCALA_MAJOR_VERSION.startswith("2") else [
     "io_bazel_rules_scala_scala_library",
     "io_bazel_rules_scala_scala_compiler",
     "io_bazel_rules_scala_scala_interfaces",
     "io_bazel_rules_scala_scala_tasty_core",
-    "io_bazel_rules_scala_scala_asm",
-    "io_bazel_rules_scala_scala_xml",
-    "io_bazel_rules_scala_scala_parser_combinators",
+    # "io_bazel_rules_scala_scala_asm",
+    # "io_bazel_rules_scala_scala_xml",
+    # "io_bazel_rules_scala_scala_parser_combinators",
     "io_bazel_rules_scala_scala_library_2",
+
 ]
 
 def scala_repositories(
