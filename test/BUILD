@@ -15,6 +15,7 @@ load(
 )
 load("//scala:scala_cross_version.bzl", "repositories")
 load(":check_statsfile.bzl", "check_statsfile")
+load(":env_vars.bzl", "env_vars")
 
 package(
     default_testonly = 1,
@@ -750,4 +751,78 @@ scala_library(
         "-Xfatal-warnings",
     ],
     deps = [":InlinableExported"],
+)
+
+TEST_ENV = {
+    "LOCATION": "West of House",
+    "DEP_PATH": "$(rootpath :HelloLib)",
+    "DATA_PATH": "$(rootpath //test/data:foo.txt)",
+    "BINDIR": "$(BINDIR)",
+    "FROM_TOOLCHAIN_VAR": "$(FOOBAR)",
+    "ESCAPED": "$$(rootpath //test/data:foo.txt) $$(BINDIR) $$UNKNOWN",
+}
+
+scala_binary(
+    name = "EnvAttributeBinary",
+    srcs = ["EnvAttributeBinary.scala"],
+    main_class = "scalarules.test.EnvAttributeBinary",
+    data = ["//test/data:foo.txt"],
+    deps = [":HelloLib"],
+    env = TEST_ENV | {"SRC_PATH": "$(rootpath EnvAttributeBinary.scala)"},
+    toolchains = [":test_vars"],
+    unused_dependency_checker_mode = "off",
+    testonly = True,
+)
+
+scala_test(
+    name = "EnvAttributeTest",
+    size = "small",
+    srcs = ["EnvAttributeTest.scala"],
+    data = ["//test/data:foo.txt"],
+    deps = [":HelloLib"],
+    env = TEST_ENV | {"SRC_PATH": "$(rootpath EnvAttributeTest.scala)"},
+    toolchains = [":test_vars"],
+    unused_dependency_checker_mode = "off",
+)
+
+scala_junit_test(
+    name = "EnvAttributeJunitTest",
+    size = "small",
+    srcs = ["src/main/scala/scalarules/test/junit/EnvAttributeJunitTest.scala"],
+    suffixes = ["Test"],
+    data = ["//test/data:foo.txt"],
+    deps = [":HelloLib"],
+    env = TEST_ENV | {
+        "SRC_PATH": (
+            "$(rootpath " +
+            "src/main/scala/scalarules/test/junit/EnvAttributeJunitTest.scala)"
+        ),
+    },
+    toolchains = [":test_vars"],
+    unused_dependency_checker_mode = "off",
+)
+
+env_vars(
+    name = "test_vars",
+    vars = {"FOOBAR": "bazquux"},
+)
+
+# Used by test_scala_test_env_attribute_with_env_inherit_and_test_env
+# from test/shell/test_env_attribute_expansion.sh.
+scala_test(
+    name = "EnvAttributeManualTest",
+    size = "small",
+    srcs = ["EnvAttributeManualTest.scala"],
+    env = {
+        "FROM_TEST_ENV_AND_ENV_ATTR": "env attribute value",
+        "FROM_ENV_INHERIT_AND_ENV_ATTR": "env attribute value",
+        "FROM_ALL_SOURCES": "env attribute value",
+    },
+    env_inherit = [
+        "FROM_ENV_INHERIT",
+        "FROM_ENV_INHERIT_AND_ENV_ATTR",
+        "FROM_ENV_INHERIT_AND_TEST_ENV",
+        "FROM_ALL_SOURCES",
+    ],
+    tags = ["manual"],
 )
