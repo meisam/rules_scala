@@ -41,10 +41,10 @@ use_repo(
     "scala_reflect",
     # Scala 3 specific
     "scala3_interfaces",
+    "scala3_library",
     "tasty_core",
     # Hardcoded versions
     "sbt_compiler_interface",
-    "scala2_library",
     "scala_asm",
 )
 
@@ -175,6 +175,10 @@ scala_deps.compiler_srcjar(
 scala_deps.compiler_srcjar(
     url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/3.7.4/scala3-compiler_3-3.7.4-sources.jar",
     version = "3.7.4",
+)
+scala_deps.compiler_srcjar(
+    url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/3.8.1/scala3-compiler_3-3.8.1-sources.jar",
+    version = "3.8.1",
 )
 
 scala_protoc = use_extension(
