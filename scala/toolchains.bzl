@@ -220,6 +220,12 @@ def scala_toolchains(
                 for id in scalafmt_artifact_ids(scala_version)
             })
 
+        if scala_native:
+            version_specific_artifact_ids.update({
+                id: False
+                for id in scala_native_artifact_ids(scala_version)
+            })
+
         all_artifacts = (
             artifact_ids_to_fetch_sources | version_specific_artifact_ids
         )

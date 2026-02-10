@@ -12,6 +12,9 @@ def _scala_native_toolchain_impl(ctx):
         nativelib = ctx.attr.nativelib,
         javalib = ctx.attr.javalib,
         auxlib = ctx.attr.auxlib,
+        linker = ctx.attr.linker,
+        test_interface = ctx.attr.test_interface,
+        junit_runtime = ctx.attr.junit_runtime,
         scala_native_version = ctx.attr.scala_native_version,
     )
     return [toolchain_info]
@@ -44,6 +47,21 @@ scala_native_toolchain = rule(
             mandatory = True,
             providers = [JavaInfo],
             doc = "The Scala Native auxiliary library",
+        ),
+        "linker": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The Scala Native tools (linker)",
+        ),
+        "test_interface": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The Scala Native test interface",
+        ),
+        "junit_runtime": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The Scala Native JUnit runtime",
         ),
         "scala_native_version": attr.string(
             default = "0.5.10",
