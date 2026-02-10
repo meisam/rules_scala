@@ -21,6 +21,7 @@ load(
     "//twitter_scrooge/toolchain:toolchain.bzl",
     "twitter_scrooge_artifact_ids",
 )
+load("//scala_native:repositories.bzl", "scala_native_artifact_ids")
 
 _DEFAULT_TOOLCHAINS_REPO_NAME = "rules_scala_toolchains"
 
@@ -94,7 +95,8 @@ def scala_toolchains(
         scalafmt = False,
         scala_proto = False,
         jmh = False,
-        twitter_scrooge = False):
+        twitter_scrooge = False,
+        scala_native = False):
     """Instantiates rules_scala toolchains and all their dependencies.
 
     Provides a unified interface to configuring `rules_scala` both directly in a
@@ -143,16 +145,19 @@ def scala_toolchains(
         jmh: whether to instantiate the Java Microbenchmarks Harness toolchain
         twitter_scrooge: bool or dictionary of `setup_scrooge_toolchain()`
             options
+        scala_native: whether to instantiate the Scala Native toolchain
     """
     scalafmt, scalafmt_options = _toolchain_opts(scalafmt)
     scala_proto, scala_proto_options = _toolchain_opts(scala_proto)
     twitter_scrooge, twitter_scrooge_options = _toolchain_opts(twitter_scrooge)
+    scala_native, scala_native_options = _toolchain_opts(scala_native)
 
     errors = _process_toolchain_options(
         TOOLCHAIN_DEFAULTS,
         scalafmt = scalafmt_options,
         scala_proto = scala_proto_options,
         twitter_scrooge = twitter_scrooge_options,
+        scala_native = scala_native_options,
     )
     if errors:
         fail("\n".join(errors))
@@ -188,6 +193,11 @@ def scala_toolchains(
         artifact_ids_to_fetch_sources.update({
             id: False
             for id in twitter_scrooge_artifact_ids(**twitter_scrooge_options)
+        })
+    if scala_native:
+        artifact_ids_to_fetch_sources.update({
+            id: False
+            for id in scala_native_artifact_ids("ignored")
         })
 
     for scala_version in SCALA_VERSIONS:
@@ -242,6 +252,7 @@ def scala_toolchains(
             k: str(v)
             for k, v in twitter_scrooge_options.items()
         },
+        scala_native = scala_native,
     )
 
 def scala_register_toolchains(name = _DEFAULT_TOOLCHAINS_REPO_NAME):

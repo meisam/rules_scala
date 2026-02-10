@@ -1,0 +1,54 @@
+"""Scala Native toolchain definition for Bazel."""
+
+load(
+  "@rules_java//java:defs.bzl",
+  "JavaInfo",
+)
+
+def _scala_native_toolchain_impl(ctx):
+    toolchain_info = platform_common.ToolchainInfo(
+        nscplugin = ctx.attr.nscplugin,
+        scalalib = ctx.attr.scalalib,
+        nativelib = ctx.attr.nativelib,
+        javalib = ctx.attr.javalib,
+        auxlib = ctx.attr.auxlib,
+        scala_native_version = ctx.attr.scala_native_version,
+    )
+    return [toolchain_info]
+
+scala_native_toolchain = rule(
+    implementation = _scala_native_toolchain_impl,
+    doc = "Defines a Scala Native toolchain providing the nscplugin compiler plugin.",
+    attrs = {
+        "nscplugin": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The nscplugin compiler plugin JAR target",
+        ),
+        "scalalib": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The Scala Native runtime library",
+        ),
+        "nativelib": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The Scala Native core library (unsafe, runtime, etc.)",
+        ),
+        "javalib": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The Scala Native Java compatibility library",
+        ),
+        "auxlib": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The Scala Native auxiliary library",
+        ),
+        "scala_native_version": attr.string(
+            default = "0.5.10",
+            doc = "The Scala Native version",
+        ),
+    },
+    provides = [platform_common.ToolchainInfo],
+)
