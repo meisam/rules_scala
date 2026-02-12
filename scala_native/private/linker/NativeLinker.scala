@@ -15,7 +15,7 @@ import scala.scalanative.util.Scope
  * It takes NIR jars (classpath), a main class, and an output directory,
  * then runs the full Scala Native pipeline: link → optimize → codegen → clang.
  */
-object LinkerWorker {
+object NativeLinker {
   def main(args: Array[String]): Unit = {
     val exitCode = Try(parseArgs(args))
       .map(link)

@@ -1,9 +1,9 @@
 load("//scala:scala.bzl", "scala_binary")
 
 scala_binary(
-    name = "linker_worker",
-    srcs = ["LinkerWorker.scala"],
-    main_class = "scala.scalanative.bazel.LinkerWorker",
+    name = "native_linker",
+    srcs = ["NativeLinker.scala"],
+    main_class = "scala.scalanative.bazel.NativeLinker",
     deps = [
         "@org_scala_native_tools//jar",
         "@org_scala_native_nativelib//jar",

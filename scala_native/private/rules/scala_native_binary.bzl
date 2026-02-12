@@ -93,7 +93,7 @@ def _scala_native_binary_impl(ctx):
     args.add("--clang++", clang_pp_path)
     args.add("--linking_option", "-fuse-ld=lld")
     # Flatten the classpath elements into a single string with the path separator
-    # LinkerWorker expects path separator.
+    # NativeLinkel expects path separator.
     args.add_joined("--cp", classpath, join_with=ctx.configuration.host_path_separator)
 
     ctx.actions.run(
@@ -117,7 +117,7 @@ _scala_native_binary_attrs = {
     "main_class": attr.string(mandatory = True),
     "deps": attr.label_list(providers = [JavaInfo]),
     "_linker_worker": attr.label(
-        default = Label("//scala_native/private/linker:linker_worker"),
+        default = Label("//scala_native/private/linker:native_linker"),
         executable = True,
         cfg = "exec",
     ),
