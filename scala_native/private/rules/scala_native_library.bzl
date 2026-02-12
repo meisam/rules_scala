@@ -158,7 +158,7 @@ _scala_native_library_attrs = {}
 _scala_native_library_attrs.update(implicit_deps)
 
 _scala_native_library_attrs.update({
-    "build_ijar": attr.bool(default = True),
+    "build_ijar": attr.bool(default = False),
 })
 
 _scala_native_library_attrs.update(common_attrs)
