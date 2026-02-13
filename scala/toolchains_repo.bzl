@@ -128,6 +128,8 @@ load(
     "@rules_scala//scala_native:scala_native_toolchain.bzl",
     "scala_native_toolchain",
 )
+load("@rules_scala_config//:config.bzl", "SCALA_VERSION")
+load("@rules_scala//scala:scala_cross_version.bzl", "version_suffix")
 
 scala_native_toolchain(
     name = "default_scala_native_toolchain",
@@ -137,6 +139,7 @@ scala_native_toolchain(
     javalib = "@org_scala_native_javalib//jar",
     auxlib = "@org_scala_native_auxlib//jar",
     linker = "@org_scala_native_tools//jar",
+    linker_binary = "@rules_scala//scala_native/private/linker:native_linker",
     test_interface = "@org_scala_native_test_interface//jar",
     junit_runtime = "@org_scala_native_junit_runtime//jar",
     scala_native_version = "0.5.10",

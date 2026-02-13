@@ -55,7 +55,8 @@ def _scala_native_binary_impl(ctx):
         scala_native_toolchain.scalalib,
     ]:
          if JavaInfo in lib:
-             native_libs_jars.extend(lib[JavaInfo].runtime_output_jars)
+             # Use transitive jars to include scala-library etc. which are deps of scalalib
+             native_libs_jars.extend(lib[JavaInfo].transitive_runtime_jars.to_list())
     
     # Collect user deps
     user_deps_jars = []
@@ -74,6 +75,8 @@ def _scala_native_binary_impl(ctx):
     # Better: create a depset that puts native libs as direct, and others as transitive.
     # And specify order="preorder" (direct first).
     classpath = depset(direct = native_libs_jars, transitive = user_deps_jars, order = "preorder")
+    print("DEBUG: Native Libs Jars:", native_libs_jars, "         ")
+
     
     main_class = ctx.attr.main_class
     module_name = ctx.label.name
@@ -81,7 +84,7 @@ def _scala_native_binary_impl(ctx):
     output_executable = ctx.actions.declare_file(ctx.label.name)
     output_dir = output_executable.dirname
     
-    worker = ctx.executable._linker_worker
+    worker = scala_native_toolchain.linker_binary[DefaultInfo].files_to_run
     
     # Arguments
     args = ctx.actions.args()
@@ -98,7 +101,11 @@ def _scala_native_binary_impl(ctx):
 
     ctx.actions.run(
         outputs = [output_executable],
-        inputs = depset([worker], transitive = [classpath, cc_toolchain.all_files]),
+        inputs = depset(transitive = [
+            scala_native_toolchain.linker_binary[DefaultInfo].files,
+            classpath,
+            cc_toolchain.all_files,
+        ]),
         executable = worker, 
         arguments = [args],
         mnemonic = "ScalaNativeLink",
@@ -116,11 +123,6 @@ def _scala_native_binary_impl(ctx):
 _scala_native_binary_attrs = {
     "main_class": attr.string(mandatory = True),
     "deps": attr.label_list(providers = [JavaInfo]),
-    "_linker_worker": attr.label(
-        default = Label("//scala_native/private/linker:native_linker"),
-        executable = True,
-        cfg = "exec",
-    ),
     "_cc_toolchain": attr.label(
         default = Label("@bazel_tools//tools/cpp:current_cc_toolchain"),
     ),

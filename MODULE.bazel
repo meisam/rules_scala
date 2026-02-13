@@ -98,23 +98,18 @@ use_repo(
 )
 scala_deps.scala_native()
 
-# Scala Native artifacts are version-specific (only for 3.8.1). Alias the
-# versioned repo names to the unversioned names used by the toolchain and
-# linker BUILD files.
+# Unsuffixed alias repos for Scala Native artifacts. These are created by
+# repositories() for the default SCALA_VERSION and are needed by
+# //scala_native/private/linker:native_linker.
 use_repo(
     scala_deps,
-    org_scala_native_auxlib = "org_scala_native_auxlib_3_8_1",
-    org_scala_native_clib = "org_scala_native_clib_3_8_1",
-    org_scala_native_javalib = "org_scala_native_javalib_3_8_1",
-    org_scala_native_junit_runtime = "org_scala_native_junit_runtime_3_8_1",
-    org_scala_native_nativelib = "org_scala_native_nativelib_3_8_1",
-    org_scala_native_nir = "org_scala_native_nir_3_8_1",
-    org_scala_native_nscplugin = "org_scala_native_nscplugin_3_8_1",
-    org_scala_native_posixlib = "org_scala_native_posixlib_3_8_1",
-    org_scala_native_scalalib = "org_scala_native_scalalib_3_8_1",
-    org_scala_native_test_interface = "org_scala_native_test_interface_3_8_1",
-    org_scala_native_tools = "org_scala_native_tools_3_8_1",
-    org_scala_native_util = "org_scala_native_util_3_8_1",
+    "org_scala_native_auxlib",
+    "org_scala_native_javalib",
+    "org_scala_native_nativelib",
+    "org_scala_native_nir",
+    "org_scala_native_scalalib",
+    "org_scala_native_tools",
+    "org_scala_native_util",
 )
 
 # Register some of our testing toolchains first when building our repo.

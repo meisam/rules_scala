@@ -13,6 +13,7 @@ def _scala_native_toolchain_impl(ctx):
         javalib = ctx.attr.javalib,
         auxlib = ctx.attr.auxlib,
         linker = ctx.attr.linker,
+        linker_binary = ctx.attr.linker_binary,
         test_interface = ctx.attr.test_interface,
         junit_runtime = ctx.attr.junit_runtime,
         scala_native_version = ctx.attr.scala_native_version,
@@ -52,6 +53,12 @@ scala_native_toolchain = rule(
             mandatory = True,
             providers = [JavaInfo],
             doc = "The Scala Native tools (linker)",
+        ),
+        "linker_binary": attr.label(
+            mandatory = True,
+            executable = True,
+            cfg = "exec",
+            doc = "The Scala Native linker executable binary",
         ),
         "test_interface": attr.label(
             mandatory = True,

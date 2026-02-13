@@ -113,7 +113,7 @@ def _scala_native_library_impl(ctx):
             ("scalainfo_provider", phase_scalainfo_provider_non_macro),
             ("collect_srcjars", phase_collect_srcjars),
             ("write_manifest", phase_write_manifest),
-            ("dependency", _phase_dependency_native),
+            ("dependency", phase_dependency_common),
             ("collect_jars", phase_collect_jars_native),
             ("scalacopts", phase_scalacopts),
             # Native compile phase adds nscplugin, standard compile merges it
@@ -127,11 +127,6 @@ def _scala_native_library_impl(ctx):
             ("default_info", phase_default_info),
         ],
     )
-
-def _phase_dependency_native(ctx, p):
-    """Dependency phase that adds Scala Native runtime to deps."""
-    # Run the standard dependency phase first
-    return phase_dependency_common(ctx, p)
 
 def _phase_scala_native_info(ctx, p):
     """Phase that produces ScalaNativeInfo provider."""

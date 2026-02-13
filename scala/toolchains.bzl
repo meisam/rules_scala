@@ -194,11 +194,6 @@ def scala_toolchains(
             id: False
             for id in twitter_scrooge_artifact_ids(**twitter_scrooge_options)
         })
-    if scala_native:
-        artifact_ids_to_fetch_sources.update({
-            id: False
-            for id in scala_native_artifact_ids("ignored")
-        })
 
     for scala_version in SCALA_VERSIONS:
         version_specific_artifact_ids = {}
@@ -225,7 +220,10 @@ def scala_toolchains(
                 id: False
                 for id in scala_native_artifact_ids(scala_version)
             })
-
+            artifact_ids_to_fetch_sources.update({
+                id: False
+                for id in scala_native_artifact_ids(scala_version)
+            })
         all_artifacts = (
             artifact_ids_to_fetch_sources | version_specific_artifact_ids
         )

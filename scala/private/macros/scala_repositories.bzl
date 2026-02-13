@@ -263,20 +263,4 @@ def scala_version_artifact_ids(scala_version):
             "org_jline_jline_terminal_jna",
             "org_jline_jline_terminal_jni",
         ])
-
-    if scala_version == "3.8.1":
-        result.extend([
-            "org_scala_native_auxlib",
-            "org_scala_native_clib",
-            "org_scala_native_javalib",
-            "org_scala_native_nativelib",
-            "org_scala_native_nir",
-            "org_scala_native_nscplugin",
-            "org_scala_native_posixlib",
-            "org_scala_native_scalalib",
-            "org_scala_native_util",
-            "org_scala_sbt_compiler_interface",
-            "org_scala_sbt_util_interface",
-        ])
-
     return result
